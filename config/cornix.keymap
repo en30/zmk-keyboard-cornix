@@ -28,7 +28,8 @@
 
 #define KEYS_L LT0 LT1 LT2 LT3 LT4 LT5 LM0 LM1 LM2 LM3 LM4 LM5 LB0 LB1 LB2 LB3 LB4 LB5
 #define KEYS_R RT0 RT1 RT2 RT3 RT4 RT5 RM0 RM1 RM2 RM3 RM4 RM5 RB0 RB1 RB2 RB3 RB4 RB5
-#define KEYS_T LH2 LH1 LH0 RH0 RH1 RH2
+#define KEYS_LT LH2 LH1 LH0
+#define KEYS_RT RH0 RH1 RH2
 
 / {
     behaviors {
@@ -41,7 +42,7 @@
             tapping-term-ms = <HM_TAPPING_TERM>;
             quick-tap-ms = <HM_QUICK_TAP>;
             require-prior-idle-ms = <HM_PRIOR_IDLE>;
-            hold-trigger-key-positions = <KEYS_R KEYS_T>;
+            hold-trigger-key-positions = <KEYS_R KEYS_RT>;
             hold-trigger-on-release;
         };
 
@@ -54,7 +55,7 @@
             tapping-term-ms = <HM_TAPPING_TERM>;
             quick-tap-ms = <HM_QUICK_TAP>;
             require-prior-idle-ms = <HM_PRIOR_IDLE>;
-            hold-trigger-key-positions = <KEYS_L KEYS_T>;
+            hold-trigger-key-positions = <KEYS_L KEYS_LT>;
             hold-trigger-on-release;
         };
 
@@ -67,7 +68,7 @@
             tapping-term-ms = <HM_TAPPING_TERM_FAST>;
             quick-tap-ms = <HM_QUICK_TAP>;
             require-prior-idle-ms = <HM_PRIOR_IDLE>;
-            hold-trigger-key-positions = <KEYS_R KEYS_T>;
+            hold-trigger-key-positions = <KEYS_R KEYS_RT>;
             hold-trigger-on-release;
         };
 
@@ -80,7 +81,7 @@
             tapping-term-ms = <HM_TAPPING_TERM_FAST>;
             quick-tap-ms = <HM_QUICK_TAP>;
             require-prior-idle-ms = <HM_PRIOR_IDLE>;
-            hold-trigger-key-positions = <KEYS_L KEYS_T>;
+            hold-trigger-key-positions = <KEYS_L KEYS_LT>;
             hold-trigger-on-release;
         };
 
