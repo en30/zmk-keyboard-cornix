@@ -32,6 +32,24 @@
 #define KEYS_RT RH0 RH1 RH2
 
 / {
+    macros {
+        lang2_space: lang2_space {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = <&kp LANG2>, <&kp SPACE>;
+        };
+
+        lang2_space_lang1: lang2_space_lang1 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = <&kp LANG2>, <&kp SPACE>, <&kp LANG1>;
+        };
+    };
+
     behaviors {
         hm_l: homerow_mods_left {
             compatible = "zmk,behavior-hold-tap";
@@ -106,7 +124,7 @@
 &kp TAB    &kp Q          &kp W          &kp E               &kp R               &kp T                         &kp Y         &kp U          &kp I               &kp O          &kp P          &kp LBKT
 &kp LCTRL  &hm_l LALT A   &hm_l LGUI S   &hm_shift_l LSHFT D &hm_l LCTRL F       &hm_l LHYPR G                 &hm_r LHYPR H &hm_r RCTRL J  &hm_shift_r RSHFT K &hm_r RGUI L   &hm_r RALT SEMI &kp SQT
 &kp LSHFT  &kp Z          &kp X          &kp C               &kp V               &kp B      &kp C_MUTE  &mkp MB3  &kp N         &kp M          &kp COMMA           &kp DOT        &kp FSLH       &kp RSHFT
-&none      &kp LALT       &kp LGUI       &lt_thumb MOUSE ESC &lt_thumb SYM SPACE &lt_thumb NUM LANG2           &kp LANG1     &lt_thumb SYM SPACE &kp ENTER      &none          &none          &mo BT
+&none      &kp LALT       &kp LGUI       &lt_thumb MOUSE ESC &lt_thumb SYM SPACE &lt_thumb NUM TAB             &kp BSPC      &lt_thumb SYM SPACE &kp ENTER      &none          &none          &mo BT
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
@@ -132,7 +150,7 @@
 &trans    &kp CARET &kp LPAR &kp RPAR &kp DLLR  &kp PRCNT                 &kp HASH  &kp AT    &kp UNDER &kp MINUS &kp AMPS  &trans
 &kp TILDE &kp SQT   &kp LBKT &kp RBKT &kp DQT   &kp GRAVE                 &kp ASTRK &kp COLON &kp FSLH  &kp DOT   &kp COMMA &kp SEMI
 &trans    &kp BSLH  &kp LBRC &kp RBRC &kp LT    &kp GT  &kp C_MUTE &mkp MB3  &kp EQUAL &kp PIPE  &kp PLUS &kp EXCL  &kp QUESTION &trans
-&trans    &trans    &trans   &trans   &trans    &trans                    &trans    &trans    &trans    &trans    &trans    &trans
+&trans    &trans    &trans   &none    &lang2_space &kp LANG2              &kp LANG1 &lang2_space_lang1 &none &trans &trans &trans
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
