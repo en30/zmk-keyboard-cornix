@@ -10,7 +10,7 @@
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/keys.h>
 
-#define ZMK_POINTING_DEFAULT_MOVE_VAL 1600
+#define ZMK_POINTING_DEFAULT_MOVE_VAL 1200
 #define ZMK_POINTING_DEFAULT_SCRL_VAL 15
 #include <dt-bindings/zmk/pointing.h>
 
@@ -48,6 +48,70 @@
             wait-ms = <40>;
             tap-ms = <40>;
             bindings = <&kp LANG2>, <&kp SPACE>, <&kp LANG1>;
+        };
+
+        scroll_right: scroll_right {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <0>;
+            tap-ms = <40>;
+            bindings = <&msc SCRL_RIGHT>;
+        };
+
+        scroll_left: scroll_left {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <0>;
+            tap-ms = <40>;
+            bindings = <&msc SCRL_LEFT>;
+        };
+
+        scroll_down: scroll_down {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <0>;
+            tap-ms = <40>;
+            bindings = <&msc SCRL_DOWN>;
+        };
+
+        scroll_up: scroll_up {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <0>;
+            tap-ms = <40>;
+            bindings = <&msc SCRL_UP>;
+        };
+
+        move_right: move_right {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <0>;
+            tap-ms = <40>;
+            bindings = <&mmv MOVE_RIGHT>;
+        };
+
+        move_left: move_left {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <0>;
+            tap-ms = <40>;
+            bindings = <&mmv MOVE_LEFT>;
+        };
+
+        move_down: move_down {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <0>;
+            tap-ms = <40>;
+            bindings = <&mmv MOVE_DOWN>;
+        };
+
+        move_up: move_up {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <0>;
+            tap-ms = <40>;
+            bindings = <&mmv MOVE_UP>;
         };
     };
 
@@ -128,16 +192,28 @@
             hold-trigger-on-release;
         };
 
-        inc_dec_msc: sensor_rotate_scroll {
-            compatible = "zmk,behavior-sensor-rotate-var";
-            #sensor-binding-cells = <2>;
-            bindings = <&msc>, <&msc>;
+        scroll_horizontal: sensor_rotate_scroll_horizontal {
+            compatible = "zmk,behavior-sensor-rotate";
+            #sensor-binding-cells = <0>;
+            bindings = <&scroll_right>, <&scroll_left>;
         };
 
-        inc_dec_mmv: sensor_rotate_mouse_move {
-            compatible = "zmk,behavior-sensor-rotate-var";
-            #sensor-binding-cells = <2>;
-            bindings = <&mmv>, <&mmv>;
+        scroll_vertical: sensor_rotate_scroll_vertical {
+            compatible = "zmk,behavior-sensor-rotate";
+            #sensor-binding-cells = <0>;
+            bindings = <&scroll_down>, <&scroll_up>;
+        };
+
+        move_horizontal: sensor_rotate_mouse_move_horizontal {
+            compatible = "zmk,behavior-sensor-rotate";
+            #sensor-binding-cells = <0>;
+            bindings = <&move_right>, <&move_left>;
+        };
+
+        move_vertical: sensor_rotate_mouse_move_vertical {
+            compatible = "zmk,behavior-sensor-rotate";
+            #sensor-binding-cells = <0>;
+            bindings = <&move_down>, <&move_up>;
         };
     };
 
@@ -154,7 +230,7 @@
 &none      &kp LALT       &kp LGUI       &lt_thumb_l MOUSE ESC &lt_thumb_l SYM SPACE &lt_thumb_l NUM TAB         &kp BSPC      &lt_thumb_r SYM SPACE &kp ENTER      &none          &none          &mo BT
             >;
 
-            sensor-bindings = <&inc_dec_msc SCRL_RIGHT SCRL_LEFT &inc_dec_msc SCRL_DOWN SCRL_UP>;
+            sensor-bindings = <&scroll_horizontal &scroll_vertical>;
         };
 
         num_layer {
@@ -193,7 +269,7 @@
 &trans  &trans  &trans        &trans          &trans        &trans                    &mkp MB3  &mkp MB1       &mkp MB2        &trans          &trans  &trans
             >;
 
-            sensor-bindings = <&inc_dec_mmv MOVE_RIGHT MOVE_LEFT &inc_dec_mmv MOVE_DOWN MOVE_UP>;
+            sensor-bindings = <&move_horizontal &move_vertical>;
         };
 
         bt_layer {
@@ -212,6 +288,6 @@
 };
 
 &mmv {
-    time-to-max-speed-ms = <120>;
+    time-to-max-speed-ms = <0>;
     acceleration-exponent = <1>;
 };
