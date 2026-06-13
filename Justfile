@@ -6,6 +6,8 @@ build := absolute_path('.build')
 out := absolute_path('firmware')
 draw := absolute_path('draw')
 kb := absolute_path('kb')
+github_remote := 'en30'
+github_workflow := 'build.yml'
 
 ## you should set ZMK_LIB_PREFIX to your zmk lib path's parent directory
 module_base := "${ZMK_LIB_PREFIX:=zmk_exts}"
@@ -162,6 +164,73 @@ list_py:
         (board, shield, snippet, artifact) = item.split(',')
         print(f"{artifact}:\n\tboard={board}, shield={shield}, snippet={snippet}")
 
+# download firmware artifacts from a completed GitHub Actions run
+download-firmware run_id repo='':
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    repo="{{ repo }}"
+    if [[ -z "$repo" ]]; then
+        remote_url="$(git remote get-url "{{ github_remote }}")"
+        repo="$(
+            sed -E \
+                -e 's#^git@github.com:##' \
+                -e 's#^https://github.com/##' \
+                -e 's#\.git$##' \
+                <<< "$remote_url"
+        )"
+    fi
+
+    tmp="{{ out }}/.download"
+    rm -rf "$tmp"
+    mkdir -p "$tmp" "{{ out }}"
+
+    gh run download "{{ run_id }}" --repo "$repo" --dir "$tmp"
+    find "$tmp" -type f -name '*.uf2' -exec mv -f {} "{{ out }}/" \;
+    rm -rf "$tmp"
+
+    find "{{ out }}" -maxdepth 1 -type f -name '*.uf2' -print | sort
+
+# push current branch, wait for GitHub Actions firmware build, and download UF2 artifacts
+push-firmware remote='en30' branch=`git branch --show-current` workflow='build.yml':
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    sha="$(git rev-parse HEAD)"
+    remote_url="$(git remote get-url "{{ remote }}")"
+    repo="$(
+        sed -E \
+            -e 's#^git@github.com:##' \
+            -e 's#^https://github.com/##' \
+            -e 's#\.git$##' \
+            <<< "$remote_url"
+    )"
+
+    git push "{{ remote }}" "{{ branch }}"
+
+    run_id=""
+    for _ in {1..30}; do
+        run_id="$(
+            gh run list \
+                --repo "$repo" \
+                --workflow "{{ workflow }}" \
+                --branch "{{ branch }}" \
+                --event push \
+                --json databaseId,headSha \
+                --jq ".[] | select(.headSha == \"$sha\") | .databaseId" |
+                head -n 1
+        )"
+        [[ -n "$run_id" ]] && break
+        sleep 2
+    done
+
+    if [[ -z "$run_id" ]]; then
+        echo "No GitHub Actions run found for $sha on {{ branch }}." >&2
+        exit 1
+    fi
+
+    gh run watch "$run_id" --repo "$repo" --exit-status
+    just download-firmware "$run_id" "$repo"
 
 # update west
 update: update-config

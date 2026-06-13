@@ -13,6 +13,8 @@ This repository contains Cornix keyboard support for ZMK. Board definitions are 
 - `just build cornix_left`: build matching targets only.
 - `just draw cornix`: render a keymap SVG when the matching draw config exists.
 - `just clean`: remove `.build/` and `firmware/` artifacts.
+- `just push-firmware`: push the current branch to the `en30` remote, wait for the GitHub Actions firmware build, and download UF2 artifacts into `firmware/`.
+- `just download-firmware <run_id>`: download UF2 artifacts from an existing GitHub Actions run into `firmware/`.
 
 Local `just` builds require `ZMK_LIB_PREFIX` to point at the parent directory containing `zmk/app`. If building the checked-in config, ensure the `Justfile` config path matches `config/`.
 
