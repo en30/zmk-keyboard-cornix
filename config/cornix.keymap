@@ -10,6 +10,7 @@
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/keys.h>
 
+#define ZMK_POINTING_DEFAULT_MOVE_VAL 1600
 #define ZMK_POINTING_DEFAULT_SCRL_VAL 15
 #include <dt-bindings/zmk/pointing.h>
 
@@ -126,6 +127,18 @@
             hold-trigger-key-positions = <KEYS_L KEYS_LT>;
             hold-trigger-on-release;
         };
+
+        inc_dec_msc: sensor_rotate_scroll {
+            compatible = "zmk,behavior-sensor-rotate-var";
+            #sensor-binding-cells = <2>;
+            bindings = <&msc>, <&msc>;
+        };
+
+        inc_dec_mmv: sensor_rotate_mouse_move {
+            compatible = "zmk,behavior-sensor-rotate-var";
+            #sensor-binding-cells = <2>;
+            bindings = <&mmv>, <&mmv>;
+        };
     };
 
     keymap {
@@ -137,11 +150,11 @@
             bindings = <
 &kp TAB    &kp Q          &kp W          &kp E               &kp R               &kp T                         &kp Y         &kp U          &kp I               &kp O          &kp P          &kp LBKT
 &kp LCTRL  &hm_l LALT A   &hm_l LGUI S   &hm_shift_l LSHFT D &hm_l LCTRL F       &hm_l LHYPR G                 &hm_r LHYPR H &hm_r RCTRL J  &hm_shift_r RSHFT K &hm_r RGUI L   &hm_r RALT SEMI &kp SQT
-&kp LSHFT  &kp Z          &kp X          &kp C               &kp V               &kp B      &kp C_MUTE  &mkp MB3  &kp N         &kp M          &kp COMMA           &kp DOT        &kp FSLH       &kp RSHFT
+&kp LSHFT  &kp Z          &kp X          &kp C               &kp V               &kp B      &kp C_MUTE  &kp LC(LS(LG(N4))) &kp N         &kp M          &kp COMMA           &kp DOT        &kp FSLH       &kp RSHFT
 &none      &kp LALT       &kp LGUI       &lt_thumb_l MOUSE ESC &lt_thumb_l SYM SPACE &lt_thumb_l NUM TAB         &kp BSPC      &lt_thumb_r SYM SPACE &kp ENTER      &none          &none          &mo BT
             >;
 
-            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
+            sensor-bindings = <&inc_dec_msc SCRL_RIGHT SCRL_LEFT &inc_dec_msc SCRL_DOWN SCRL_UP>;
         };
 
         num_layer {
@@ -176,11 +189,11 @@
             bindings = <
 &trans  &trans  &trans        &trans          &trans        &trans                    &trans    &trans         &mmv MOVE_UP    &trans          &trans  &trans
 &trans  &none   &trans        &trans          &none         &trans                    &trans    &mmv MOVE_LEFT &mmv MOVE_DOWN  &mmv MOVE_RIGHT &trans  &trans
-&trans  &trans  &trans        &trans          &trans        &trans  &kp C_MUTE &mkp MB3  &trans    &trans         &trans          &trans          &trans  &trans
+&trans  &trans  &trans        &trans          &trans        &trans  &mkp MB4   &mkp MB5  &trans    &trans         &trans          &trans          &trans  &trans
 &trans  &trans  &trans        &trans          &trans        &trans                    &mkp MB3  &mkp MB1       &mkp MB2        &trans          &trans  &trans
             >;
 
-            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
+            sensor-bindings = <&inc_dec_mmv MOVE_RIGHT MOVE_LEFT &inc_dec_mmv MOVE_DOWN MOVE_UP>;
         };
 
         bt_layer {
@@ -196,4 +209,9 @@
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
         };
     };
+};
+
+&mmv {
+    time-to-max-speed-ms = <120>;
+    acceleration-exponent = <1>;
 };
