@@ -1,7 +1,7 @@
 default:
     @just --list --unsorted
 
-config := absolute_path('config2')
+config := absolute_path('config')
 build := absolute_path('.build')
 out := absolute_path('firmware')
 draw := absolute_path('draw')
@@ -118,15 +118,20 @@ clean-nix:
 draw keyboard: 
     #!/usr/bin/env bash
     set -euo pipefail
+    mkdir -p "{{ draw }}"
     echo "generated yaml"     
     set -x
     ## should use -z for zmk keyboards
     keymap -c "{{ draw }}/config-{{ keyboard }}.yaml" parse -z "{{ config }}/{{ keyboard }}.keymap" --virtual-layers Combos >"{{ draw }}/{{ keyboard }}.yaml"
-    KBOARD=`yq -r '.layout."zmk_keyboard"' {{ draw }}/{{ keyboard }}.yaml`
-    echo "found zmk keyboard name : ${KBOARD}"
+    INFO_JSON="{{ config }}/{{ keyboard }}.json"
+    LAYOUT_NAME=`yq -r '.layout.layout_name // ""' "{{ draw }}/{{ keyboard }}.yaml"`
+    if [[ -z "$LAYOUT_NAME" ]]; then
+        LAYOUT_NAME=`yq -r '.layouts | keys | .[0]' "$INFO_JSON"`
+    fi
     #yq -Yi '.combos.[].l = ["Combos"]' "{{ draw }}/{{ keyboard }}.yaml"
-    echo "generated svg for ${KBOARD}"     
-    keymap -c "{{ draw }}/config-{{ keyboard }}.yaml" draw "{{ draw }}/{{ keyboard }}.yaml" -z "${KBOARD}" >"{{ draw }}/{{ keyboard }}.svg"
+    echo "generated svg for ${INFO_JSON} ${LAYOUT_NAME}"
+    keymap -c "{{ draw }}/config-{{ keyboard }}.yaml" draw "{{ draw }}/{{ keyboard }}.yaml" -j "${INFO_JSON}" -l "${LAYOUT_NAME}" >"{{ draw }}/{{ keyboard }}.svg"
+    python3 "{{ draw }}/annotate-encoders.py" "{{ config }}/{{ keyboard }}.keymap" "{{ draw }}/{{ keyboard }}.svg"
 
 # initialize west
 init:

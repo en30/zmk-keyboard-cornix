@@ -5,7 +5,11 @@ result
 .envrc
 .build
 target
+__pycache__/
+*.pyc
 
 firmware
 
 .zmk/
+draw/cornix.yaml
+draw/cornix.svg

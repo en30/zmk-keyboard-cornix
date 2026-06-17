@@ -1,0 +1,54 @@
+parse_config:
+  zmk_preamble: |
+    #define KEYMAP_DRAWER
+  zmk_additional_includes:
+    - draw
+    - .zmk/zmk-helpers/include
+    - .zmk/zmk/app/dts
+    - .zmk/zmk/app/include
+    - config
+  layer_legend_map:
+    Base: Base
+    Num: Num
+    Sym: Sym
+    Nav: Nav
+    Mouse: Mouse
+    BT: BT
+  trans_legend: ""
+  raw_binding_map:
+    "&none": ""
+    "&lang2_space": { t: Space, h: LANG2 }
+    "&lang2_space_lang1": { t: Space, h: LANG2, s: LANG1 }
+    "&hm_l LHYPR G": { t: G, h: HYPR }
+    "&hm_r LHYPR H": { t: H, h: HYPR }
+    "&mmv MOVE_UP": "Mouse Up"
+    "&mmv MOVE_DOWN": "Mouse Down"
+    "&mmv MOVE_LEFT": "Mouse Left"
+    "&mmv MOVE_RIGHT": "Mouse Right"
+    "&mkp MB1": "Mouse 1"
+    "&mkp MB2": "Mouse 2"
+    "&mkp MB3": "Mouse 3"
+    "&mkp MB4": "Mouse 4"
+    "&mkp MB5": "Mouse 5"
+    "&bt BT_CLR": "BT Clear"
+    "&bt BT_SEL 0": "BT 0"
+    "&bt BT_SEL 1": "BT 1"
+    "&bt BT_SEL 2": "BT 2"
+
+draw_config:
+  append_colon_to_layer_header: false
+  footer_text: ""
+  key_w: 60
+  key_h: 56
+  key_rx: 6
+  key_ry: 6
+  n_columns: 1
+  outer_pad_h: 270
+  shrink_wide_legends: 8
+  svg_extra_style: |
+    svg.keymap { background: #ffffff; font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif; }
+    rect.key { fill: #e6e7eb; stroke: none; }
+    rect.combo { fill: #d8dbe2; stroke: none; }
+    text { fill: #2f3137; }
+    text.hold, text.shifted, text.left, text.right { fill: #666b76; }
+    text.layer-activator { text-decoration: none; }

@@ -3,9 +3,53 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - "boards/*"
-      - "config/*"
+      - "boards/**"
+      - "config/**"
+      - "draw/**"
+      - "build.yaml"
+      - ".github/workflows/build.yml"
 
 jobs:
   build:
     uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@v0.3.0
+
+  draw-keymap:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Checkout ZMK headers
+        uses: actions/checkout@v4
+        with:
+          repository: zmkfirmware/zmk
+          ref: v0.3.0
+          path: .zmk/zmk
+
+      - name: Checkout zmk-helpers headers
+        uses: actions/checkout@v4
+        with:
+          repository: urob/zmk-helpers
+          ref: main
+          path: .zmk/zmk-helpers
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install keymap-drawer
+        run: python3 -m pip install keymap-drawer==0.23.0
+
+      - name: Generate keymap SVG
+        run: |
+          keymap -c draw/config-cornix.yaml parse -z config/cornix.keymap --virtual-layers Combos > draw/cornix.yaml
+          keymap -c draw/config-cornix.yaml draw draw/cornix.yaml -j config/cornix.json -l LAYOUT_50 > draw/cornix.svg
+          python3 draw/annotate-encoders.py config/cornix.keymap draw/cornix.svg
+
+      - name: Upload keymap SVG
+        uses: actions/upload-artifact@v4
+        with:
+          name: keymap-svg
+          path: draw/cornix.svg
+          if-no-files-found: error
