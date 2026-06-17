@@ -181,11 +181,11 @@
             bindings = <
 &trans    &kp CARET &kp LPAR &kp RPAR &kp DLLR  &kp PRCNT                 &kp HASH  &kp AT    &kp UNDER &kp MINUS &kp AMPS  &trans
 &kp TILDE &kp SQT   &kp LBKT &kp RBKT &kp DQT   &kp GRAVE                 &kp ASTRK &kp COLON &kp FSLH  &kp DOT   &kp COMMA &kp SEMI
-&trans    &kp BSLH  &kp LBRC &kp RBRC &kp LT    &kp GT  &kp LG(W)  &kp ENTER &kp EQUAL &kp PIPE  &kp PLUS &kp EXCL  &kp QUESTION &trans
+&trans    &kp BSLH  &kp LBRC &kp RBRC &kp LT    &kp GT  &kp C_MUTE &kp LG(W) &kp EQUAL &kp PIPE  &kp PLUS &kp EXCL  &kp QUESTION &trans
 &trans    &trans    &trans   &none    &lang2_space &kp LANG2              &kp LANG1 &lang2_space_lang1 &none &trans &trans &trans
             >;
 
-            sensor-bindings = <&inc_dec_kp LG(LS(RBKT)) LG(LS(LBKT)) &inc_dec_kp TAB LS(TAB)>;
+            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp LG(LS(RBKT)) LG(LS(LBKT))>;
         };
 
         nav_layer {
@@ -194,21 +194,21 @@
             bindings = <
 &trans  &trans  &trans  &trans  &trans  &trans                   &trans  &kp HOME &kp UP   &kp END   &trans  &trans
 &trans  &trans  &trans  &trans  &trans  &trans                   &trans  &kp LEFT &kp DOWN &kp RIGHT &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &kp PG_UP &trans  &kp PG_DN &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans  &trans    &kp ENTER &trans  &kp PG_UP &trans  &kp PG_DN &trans  &trans
 &trans  &trans  &trans  &trans  &trans  &trans                   &trans  &trans    &trans   &trans    &trans  &trans
             >;
 
-            sensor-bindings = <&inc_dec_kp RIGHT LEFT &inc_dec_kp DOWN UP>;
+            sensor-bindings = <&inc_dec_kp RIGHT LEFT &inc_dec_kp TAB LS(TAB)>;
         };
 
         mouse_layer {
             display-name = "Mouse";
 
             bindings = <
-&trans  &mkp MB4 &mmv MOVE_UP &mkp MB5        &mkp MB3      &trans                    &trans    &trans         &mmv MOVE_UP    &trans          &trans  &trans
-&trans  &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_RIGHT &mkp MB1 &mkp MB2               &trans    &mmv MOVE_LEFT &mmv MOVE_DOWN  &mmv MOVE_RIGHT &trans  &trans
-&trans  &trans  &trans        &trans          &trans        &trans  &mkp MB4   &mkp MB5  &trans    &trans         &trans          &trans          &trans  &trans
-&trans  &trans  &trans        &trans          &trans        &trans                    &mkp MB3  &mkp MB1       &mkp MB2        &trans          &trans  &trans
+&trans  &trans  &trans          &mmv MOVE_UP    &trans           &trans                    &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_RIGHT  &trans                    &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans          &trans          &trans           &trans  &trans  &trans     &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans          &mkp MB3        &mkp MB1         &mkp MB2                  &trans  &trans  &trans  &trans  &trans  &trans
             >;
 
             sensor-bindings = <&scroll_horizontal &scroll_vertical>;
