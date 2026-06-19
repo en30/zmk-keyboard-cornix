@@ -195,7 +195,7 @@
 &trans  &trans  &trans  &trans  &trans  &trans                   &trans  &kp HOME &kp UP   &kp END   &trans  &trans
 &trans  &trans  &trans  &trans  &trans  &trans                   &trans  &kp LEFT &kp DOWN &kp RIGHT &trans  &trans
 &trans  &trans  &trans  &trans  &trans  &trans  &trans    &kp ENTER &trans  &kp PG_UP &trans  &kp PG_DN &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans                   &trans  &trans    &trans   &trans    &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans                   &kp BSPC &kp DEL   &trans   &trans    &trans  &trans
             >;
 
             sensor-bindings = <&inc_dec_kp RIGHT LEFT &inc_dec_kp TAB LS(TAB)>;
@@ -230,6 +230,6 @@
 };
 
 &mmv {
-    time-to-max-speed-ms = <0>;
+    time-to-max-speed-ms = <200>;
     acceleration-exponent = <1>;
 };
