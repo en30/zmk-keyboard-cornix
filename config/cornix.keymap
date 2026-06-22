@@ -114,6 +114,7 @@
             flavor = "hold-preferred";
             tapping-term-ms = <HM_TAPPING_TERM>;
             quick-tap-ms = <HM_QUICK_TAP>;
+            hold-while-undecided;
             hold-trigger-key-positions = <KEYS_R KEYS_RT>;
             hold-trigger-on-release;
         };
@@ -126,6 +127,7 @@
             flavor = "hold-preferred";
             tapping-term-ms = <HM_TAPPING_TERM>;
             quick-tap-ms = <HM_QUICK_TAP>;
+            hold-while-undecided;
             hold-trigger-key-positions = <KEYS_L KEYS_LT>;
             hold-trigger-on-release;
         };
