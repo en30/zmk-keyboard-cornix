@@ -25,6 +25,7 @@
 #define HM_TAPPING_TERM_FAST 200
 #define HM_QUICK_TAP 200
 #define HM_PRIOR_IDLE 70
+#define Z_MOUSE_TAPPING_TERM 3600000
 
 #define LHYPR LC(LS(LA(LGUI)))
 
@@ -132,6 +133,18 @@
             hold-trigger-on-release;
         };
 
+        z_mouse_l: z_mouse_layer_left {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            bindings = <&mo>, <&kp>;
+
+            flavor = "tap-unless-interrupted";
+            tapping-term-ms = <Z_MOUSE_TAPPING_TERM>;
+            quick-tap-ms = <HM_QUICK_TAP>;
+            require-prior-idle-ms = <HM_PRIOR_IDLE>;
+            hold-trigger-key-positions = <LH1 LH0>;
+        };
+
         scroll_horizontal: sensor_rotate_scroll_horizontal {
             compatible = "zmk,behavior-sensor-rotate";
             #sensor-binding-cells = <0>;
@@ -157,7 +170,7 @@
             bindings = <
 &kp TAB    &kp Q          &kp W          &kp E               &kp R               &kp T                         &kp Y         &kp U          &kp I               &kp O          &kp P          &kp LBKT
 &kp LCTRL  &hm_l LALT A   &hm_l LGUI S   &hm_shift_l LSHFT D &hm_l LCTRL F       &hm_l LHYPR G                 &hm_r LHYPR H &hm_r RCTRL J  &hm_shift_r RSHFT K &hm_r RGUI L   &hm_r RALT SEMI &kp SQT
-&kp LSHFT  &kp Z          &kp X          &kp C               &kp V               &kp B      &kp C_MUTE  &kp LC(LS(LG(N4))) &kp N         &kp M          &kp COMMA           &kp DOT        &kp FSLH       &kp RSHFT
+&kp LSHFT  &z_mouse_l MOUSE Z &kp X          &kp C               &kp V               &kp B      &kp C_MUTE  &kp LC(LS(LG(N4))) &kp N         &kp M          &kp COMMA           &kp DOT        &kp FSLH       &kp RSHFT
 &none      &kp LALT       &kp LGUI       &lt_thumb_l NAV ESC   &lt_thumb_l SYM SPACE &lt_thumb_l NUM TAB         &kp BSPC      &lt_thumb_r SYM SPACE &lt_thumb_r MOUSE ENTER &none          &none          &mo BT
             >;
 
